@@ -6,16 +6,9 @@ function App() {
       <div className="container">
         <h1>Weather App</h1>
         <footer>
-          This project was coded by{" "}
+          This project was coded by Denise Garcia and is{" "}
           <a
-            href="https://github.com/Denise148"
-            target="_blank"
-            rel="noreferrer">
-            Denise Garcia{" "}
-          </a>
-          and is{" "}
-          <a
-            href="https://github.com/Denise148/weather-react"
+            href="https://github.com/Denise148/weather-react-app"
             target="_blank"
             rel="noreferrer">
             on GitHub{" "}
