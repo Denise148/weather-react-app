@@ -15,7 +15,7 @@ function App() {
           </a>
           and{" "}
           <a
-            href="https://app.netlify.com/sites/weather-react-she-codes/overview"
+            href="https://app.netlify.com/sites/weather-react-app-she-codes/overview"
             target="_blank"
             rel="noreferrer">
             hosted on Netlify
