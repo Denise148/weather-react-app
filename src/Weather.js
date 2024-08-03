@@ -1,56 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Weather.css";
 import axios from "axios";
 
-export default function Weather() {
-  function handleResponse(response) {}
-  let apiKey = "20b266eb57t5a497fa9e0073d3a3017o";
-  let city = "New York";
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`;
-  axios.get(apiUrl).then(handleResponse);
-  return (
-    <div className="Weather">
-      <form>
-        <div className="row">
-          <div className="col-9">
-            <input
-              type="search"
-              placeholder="Enter a city..."
-              className="form-control"
-              autoFocus="on"
-            />
+export default function Weather(props) {
+  const [weatherData, setWeatherData] = useState({ ready: false });
+  function handleResponse(response) {
+    setWeatherData({
+      temperature: response.data.main.temp,
+      wind: response.data.wind.speed,
+      description: response.data.weather[0].description,
+      precipitaion: response.data.main.precipitaion,
+      city: response.data.name,
+      humidity: response.data.main.humidity,
+      icon: response.data.main.icon,
+      date: response.data.main.date,
+      ready: true,
+    });
+  }
+  if (weatherData.ready) {
+    return (
+      <div className="Weather">
+        <form>
+          <div className="row">
+            <div className="col-9">
+              <input
+                type="search"
+                placeholder="Enter a city..."
+                className="form-control"
+                autoFocus="on"
+              />
+            </div>
+            <div className="col-3">
+              <input
+                type="submit"
+                value="Search"
+                className="btn btn-primary w-100"
+              />
+            </div>
           </div>
-          <div className="col-3">
-            <input
-              type="submit"
-              value="Search"
-              className="btn btn-primary w-100"
-            />
+        </form>
+        <h1>{weatherData.city}</h1>
+        <ul>
+          <li>{weatherData.date}</li>
+          <li className="text-capitalize">{weatherData.description}</li>
+        </ul>
+        <div className="row mt-3">
+          <div className="col-6">
+            <img src={weatherData.icon} alt="" />
+            <span className="temperature">
+              {Math.round(weatherData.temperature)}
+            </span>
+            <span className="unit">°F</span>
           </div>
-        </div>
-      </form>
-      <h1>New York</h1>
-      <ul>
-        <li>Wednesday 7:00pm</li>
-        <li>Sunny</li>
-      </ul>
-      <div className="row mt-3">
-        <div className="col-6">
-          <img
-            src="https://ssl.gstatic.com/onebox/weather/64/sunny.png"
-            alt="Sunny"
-          />
-          <span className="temperature">86</span>
-          <span className="unit">°F</span>
-        </div>
-        <div className="col-6">
-          <ul>
-            <li>Precipitation: 15%</li>
-            <li>Humidity: 72%</li>
-            <li>Wind: 13mph</li>
-          </ul>
+          <div className="col-6">
+            <ul>
+              <li>Precipitation: {weatherData.precipitation}%</li>
+              <li>Humidity: {weatherData.humidity}%</li>
+              <li>Wind:{Math.round(weatherData.wind)}mph</li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    const apiKey = "9c2510687917a4dd804679999e5d1803";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=
+    ${props.defaultCity}&appid=${apiKey}&units=imperial`;
+    axios.get(apiUrl).then(handleResponse);
+
+    return "Loading...";
+  }
 }
